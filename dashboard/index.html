@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClusterStat Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="top-header">
+      <div class="header-left">
+        <div class="brand-icons">
+          <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="14" cy="14" r="8" />
+            <circle cx="50" cy="14" r="8" />
+            <circle cx="32" cy="46" r="8" />
+            <path d="M22 18 L42 18 M18 22 L28 40 M46 22 L36 40" />
+          </svg>
+          <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="12" y="10" width="40" height="14" rx="4" />
+            <rect x="12" y="26" width="40" height="14" rx="4" />
+            <rect x="12" y="42" width="40" height="14" rx="4" />
+            <circle cx="18" cy="17" r="2" />
+            <circle cx="18" cy="33" r="2" />
+            <circle cx="18" cy="49" r="2" />
+          </svg>
+        </div>
+        <h1>ClusterStat Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" aria-label="Profile">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="24" r="12" />
+            <path d="M12 54c3-10 12-16 20-16s17 6 20 16" />
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Settings">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="8" />
+            <path d="M32 10v7M32 47v7M10 32h7M47 32h7M16 16l5 5M43 43l5 5M16 48l5-5M43 21l5-5" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content-layout">
+      <aside class="left-sidebar">
+        <section class="avg-card">
+          <h2>Global System Average (AVG)</h2>
+          <p id="global-stats-line" class="global-stats-line">[Stats] Active agents=0 | globalAvgCpu=0.00 | globalAvgMemory=0.00 | totalSamples=0</p>
+        </section>
+
+        <section class="side-widget">
+          <h3>
+            <span class="icon-wrap">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 8 14 16v16c0 12 8 20 18 24 10-4 18-12 18-24V16Z" />
+              </svg>
+            </span>
+            System-Wide Uptime
+          </h3>
+          <div class="ring-wrap">
+            <svg class="uptime-ring" viewBox="0 0 180 180" aria-hidden="true">
+              <circle class="ring-base" cx="90" cy="90" r="70" />
+              <circle class="ring-progress" cx="90" cy="90" r="70" />
+            </svg>
+            <div class="ring-value">
+              <span class="big">99.8</span>
+              <span class="small">%</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-widget">
+          <h3>
+            <span class="icon-wrap">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="22" />
+                <path d="M10 32h44M32 10a30 30 0 0 1 0 44M32 10a30 30 0 0 0 0 44" />
+              </svg>
+            </span>
+            Total Request Rate
+          </h3>
+          <svg class="mini-line" viewBox="0 0 240 80" aria-hidden="true">
+            <path d="M0 56 C20 44 36 46 52 50 C70 54 86 26 104 22 C122 18 140 28 156 34 C172 40 186 36 206 20 C220 10 230 18 240 16" />
+          </svg>
+          <p class="metric-value">3,100 <span>req/min</span></p>
+        </section>
+
+        <section class="side-widget">
+          <h3>
+            <span class="icon-wrap">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M10 20h30l-8-8M54 44H24l8 8" />
+              </svg>
+            </span>
+            Overall Bandwidth
+          </h3>
+          <div class="mini-bars" aria-hidden="true">
+            <span style="height: 22%"></span>
+            <span style="height: 58%"></span>
+            <span style="height: 40%"></span>
+            <span style="height: 75%"></span>
+            <span style="height: 50%"></span>
+            <span style="height: 84%"></span>
+            <span style="height: 66%"></span>
+          </div>
+          <p class="metric-value">190 <span>TB</span></p>
+        </section>
+
+        <p class="sidebar-foot">ClusterStat Dashboard</p>
+      </aside>
+
+      <main class="main-content">
+        <section class="scene-panel">
+          <div class="timestamp-row">
+            <p class="updated-primary">Updated at <strong id="clock-main">6:28:38 AM</strong></p>
+            <p class="updated-secondary" id="clock-mini">Updated: 12:28:38 AM</p>
+          </div>
+
+          <div class="ambient-particles" aria-hidden="true"></div>
+          <svg class="mesh" viewBox="0 0 500 260" aria-hidden="true">
+            <g>
+              <circle cx="300" cy="46" r="4" />
+              <circle cx="356" cy="76" r="4" />
+              <circle cx="422" cy="58" r="4" />
+              <circle cx="454" cy="122" r="4" />
+              <circle cx="386" cy="150" r="4" />
+              <circle cx="318" cy="132" r="4" />
+            </g>
+            <path d="M300 46 L356 76 L422 58 L454 122 L386 150 L318 132 L300 46 M356 76 L386 150 M318 132 L422 58" />
+          </svg>
+
+          <div class="server-cluster">
+            <svg class="connection-lines" viewBox="0 0 1000 300" aria-hidden="true">
+              <path d="M500 44 C390 110 280 124 182 204" />
+              <path d="M500 44 C500 112 500 134 500 204" />
+              <path d="M500 44 C620 110 734 124 838 204" />
+            </svg>
+
+            <article class="server-3d" aria-label="Core System Server">
+              <div class="server-face front">
+                <div class="vent heart"></div>
+                <div class="slots"></div>
+              </div>
+              <div class="server-face side"></div>
+              <div class="server-face top"></div>
+            </article>
+            <h2>Core System Server</h2>
+          </div>
+
+          <section class="users-row">
+            <div class="user-group">
+              <p class="user-updated" id="slot-0-updated">Updated: Waiting...</p>
+              <article class="user-card">
+                <div class="user-profile">
+                  <div class="avatar analyst" aria-hidden="true"></div>
+                  <span id="slot-0-role">Analyst</span>
+                </div>
+                <div class="stats-box">
+                  <h3 id="slot-0-title">Slot 1 - Waiting for client</h3>
+                  <p id="slot-0-line1" class="client-output">[Client #0] samples=0 | avgCpu=0.00 | avgMemory=0.00</p>
+                  <p id="slot-0-line2" class="client-output-sub"></p>
+                </div>
+              </article>
+            </div>
+
+            <div class="user-group">
+              <p class="user-updated" id="slot-1-updated">Updated: Waiting...</p>
+              <article class="user-card">
+                <div class="user-profile">
+                  <div class="avatar engineer" aria-hidden="true"></div>
+                  <span id="slot-1-role">Engineer</span>
+                </div>
+                <div class="stats-box">
+                  <h3 id="slot-1-title">Slot 2 - Waiting for client</h3>
+                  <p id="slot-1-line1" class="client-output">[Client #0] samples=0 | avgCpu=0.00 | avgMemory=0.00</p>
+                  <p id="slot-1-line2" class="client-output-sub"></p>
+                </div>
+              </article>
+            </div>
+
+            <div class="user-group">
+              <p class="user-updated" id="slot-2-updated">Updated: Waiting...</p>
+              <article class="user-card avg-node">
+                <div class="user-profile">
+                  <div class="avatar manager" aria-hidden="true"></div>
+                  <span id="slot-2-role">Manager</span>
+                </div>
+                <div class="stats-box">
+                  <h3 id="slot-2-title">Slot 3 - Waiting for client</h3>
+                  <p id="slot-2-line1" class="client-output">[Client #0] samples=0 | avgCpu=0.00 | avgMemory=0.00</p>
+                  <p id="slot-2-line2" class="client-output-sub"></p>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <footer class="app-footer">
+      <p>ClusterStat Dashboard</p>
+      <p>Footer: srevastraclunal</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
