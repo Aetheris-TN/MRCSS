@@ -12,8 +12,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.UUID;
+import java.net.InetAddress;
 
 public class Client {
+    private static final String agentId = UUID.randomUUID().toString();
+    private static final String hostname = getHostname();
+
+    private static String getHostname() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (Exception e) {
+            return "unknown-host";
+        }
+    }
     public static void main(String[] args) {
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
         AtomicBoolean running = new AtomicBoolean(true);
@@ -29,8 +41,11 @@ public class Client {
 
             String welcome = in.readLine();
             if (welcome != null) {
-                System.out.println("Server says: " + welcome);
+                System.out.println("Server (init): " + welcome);
             }
+
+            // Protocol: HELLO <agent_id> <hostname>
+            out.println("HELLO " + agentId + " " + hostname);
 
             Thread serverReaderThread = new Thread(() -> {
                 try {
@@ -57,7 +72,9 @@ public class Client {
 
                 double cpu = readCpuPercent();
                 double memory = readUsedMemoryMb();
-                String metricsLine = String.format(Locale.US, "METRICS %.2f %.2f", cpu, memory);
+                long timestamp = System.currentTimeMillis() / 1000; // Protocol uses epoch seconds
+                // Protocol: REPORT <agent_id> <timestamp> <cpu_pct> <ram_mb>
+                String metricsLine = String.format(Locale.US, "REPORT %s %d %.2f %.2f", agentId, timestamp, cpu, memory);
 
                 synchronized (out) {
                     out.println(metricsLine);
@@ -65,21 +82,17 @@ public class Client {
             }, 0, 1, TimeUnit.SECONDS);
 
             while (true) {
-                System.out.print("Enter message for server: ");
+                System.out.print("Enter command for server (type /quit to exit): ");
                 String message = consoleReader.readLine();
-                if (message == null) {
+                if (message == null || "/quit".equalsIgnoreCase(message.trim())) {
                     synchronized (out) {
-                        out.println("/quit");
+                        out.println("BYE " + agentId);
                     }
                     break;
                 }
 
                 synchronized (out) {
                     out.println(message);
-                }
-
-                if ("/quit".equalsIgnoreCase(message.trim())) {
-                    break;
                 }
             }
 

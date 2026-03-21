@@ -39,8 +39,10 @@ function setSlot(slotIndex, client) {
   const titleEl = document.getElementById("slot-" + slotIndex + "-title");
   const line1El = document.getElementById("slot-" + slotIndex + "-line1");
   const line2El = document.getElementById("slot-" + slotIndex + "-line2");
+  const badgeEl = document.getElementById("slot-" + slotIndex + "-badge");
+  const cardEl = updatedEl.closest('.user-group').querySelector('.user-card');
 
-  if (!updatedEl || !roleEl || !titleEl || !line1El || !line2El) {
+  if (!updatedEl || !roleEl || !titleEl || !line1El || !line2El || !badgeEl || !cardEl) {
     return;
   }
 
@@ -50,14 +52,22 @@ function setSlot(slotIndex, client) {
     titleEl.textContent = "Slot " + (slotIndex + 1) + " - Waiting for client";
     line1El.textContent = "[Client #0] samples=0 | avgCpu=0.00 | avgMemory=0.00";
     line2El.textContent = "";
+    cardEl.classList.remove("inactive");
     return;
+  }
+
+  const isInactive = !!client.inactive;
+  if (isInactive) {
+    cardEl.classList.add("inactive");
+  } else {
+    cardEl.classList.remove("inactive");
   }
 
   updatedEl.textContent = formatUpdated(client.lastUpdated);
   roleEl.textContent = "Client #" + client.id;
   titleEl.textContent = "Round Robin Slot " + (slotIndex + 1);
   line1El.textContent =
-    "[Client #" + client.id + "] samples=" + client.samples +
+    "[Client #" + client.id.substring(0, 8) + "...] samples=" + client.samples +
     " | avgCpu=" + client.avgCpu.toFixed(2) +
     " | avgMemory=" + client.avgMemory.toFixed(2);
   line2El.textContent = "";
@@ -123,6 +133,11 @@ function applyState(payload) {
 
   renderSlots();
   renderGlobalStats();
+
+  const countEl = document.getElementById("agent-count");
+  if (countEl) {
+    countEl.textContent = activeClients.length + " agent" + (activeClients.length === 1 ? "" : "s") + " connected";
+  }
 }
 
 function startEventStream() {
@@ -214,3 +229,24 @@ setInterval(() => {
   }
 }, 3000);
 startEventStream();
+
+const downloadBtn = document.getElementById("download-csv");
+if (downloadBtn) {
+  downloadBtn.addEventListener("click", () => {
+    window.location.href = API_BASE + "/api/export";
+  });
+}
+
+const spawnBtn = document.getElementById("spawn-agent");
+if (spawnBtn) {
+  spawnBtn.addEventListener("click", () => {
+    fetch(API_BASE + "/api/spawn-agent")
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === "error") {
+          alert("Failed to spawn agent: " + data.message);
+        }
+      })
+      .catch(e => console.error("Spawn error", e));
+  });
+}

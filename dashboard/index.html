@@ -30,8 +30,20 @@
           </svg>
         </div>
         <h1>ClusterStat Dashboard</h1>
+        <span id="agent-count" class="connection-counter">0 agents connected</span>
       </div>
-      <div class="header-right">
+        <button id="spawn-agent" class="action-btn spawn-btn" title="Spawn Agent">
+          <svg viewBox="0 0 64 64" aria-hidden="true" style="width: 20px; height: 20px; fill: currentColor;">
+            <path d="M32 12v40M12 32h40" />
+          </svg>
+          Add Agent
+        </button>
+        <button id="download-csv" class="action-btn" title="Download CSV">
+          <svg viewBox="0 0 64 64" aria-hidden="true" style="width: 20px; height: 20px; fill: currentColor;">
+            <path d="M12 40v12h40V40M32 10v24M20 22l12 12 12-12" />
+          </svg>
+          CSV
+        </button>
         <button class="icon-btn" aria-label="Profile">
           <svg viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="24" r="12" />
@@ -160,6 +172,7 @@
                 <div class="user-profile">
                   <div class="avatar analyst" aria-hidden="true"></div>
                   <span id="slot-0-role">Analyst</span>
+                  <div id="slot-0-badge" class="pulse-badge" title="Inactive Agent"></div>
                 </div>
                 <div class="stats-box">
                   <h3 id="slot-0-title">Slot 1 - Waiting for client</h3>
@@ -175,6 +188,7 @@
                 <div class="user-profile">
                   <div class="avatar engineer" aria-hidden="true"></div>
                   <span id="slot-1-role">Engineer</span>
+                  <div id="slot-1-badge" class="pulse-badge" title="Inactive Agent"></div>
                 </div>
                 <div class="stats-box">
                   <h3 id="slot-1-title">Slot 2 - Waiting for client</h3>
@@ -190,6 +204,7 @@
                 <div class="user-profile">
                   <div class="avatar manager" aria-hidden="true"></div>
                   <span id="slot-2-role">Manager</span>
+                  <div id="slot-2-badge" class="pulse-badge" title="Inactive Agent"></div>
                 </div>
                 <div class="stats-box">
                   <h3 id="slot-2-title">Slot 3 - Waiting for client</h3>
